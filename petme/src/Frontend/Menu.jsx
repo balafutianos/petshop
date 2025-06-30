@@ -1,103 +1,87 @@
-import React, { useState } from "react";
-import { auth, db } from "../firebase"; // adjust if needed
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import React, { useState, useEffect, useRef } from "react";
+import "./Menu.css";
+import Hypernav from "../Frontend/Hypernav";
 
-function Signup() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [fname, setFname] = useState("");
-  const [lname, setLname] = useState("");
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
+const Menu = () => {
+  const [menuActive, setMenuActive] = useState(false);
+  const hamburgerRef = useRef(null);
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      const user = auth.currentUser;
-      if (user) {
-        await setDoc(doc(db, "Users", user.uid), {
-          email: user.email,
-          firstName: fname,
-          lastName: lname,
-          photo: "",
-        });
-      }
-      alert("User Registered Successfully!");
-    } catch (error) {
-      alert(error.message);
+  const toggleMenu = () => {
+    setMenuActive((prev) => !prev);
+  };
+
+  const handleLinkClick = () => {
+    if (window.innerWidth <= 768) {
+      setMenuActive(false);
     }
   };
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
-      alert("Login Successful!");
-      window.location.href = "/profile";
-    } catch (error) {
-      alert(error.message);
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggleMenu();
     }
   };
+
+  useEffect(() => {
+    if (hamburgerRef.current) {
+      hamburgerRef.current.setAttribute("aria-expanded", menuActive);
+    }
+  }, [menuActive]);
+
+  const greekMenuItems = [
+    { label: "Αρχική", isHome: true },
+    { label: "Σχετικά", isHome: false },
+    { label: "Υπηρεσίες", isHome: false },
+    { label: "Έργα", isHome: false },
+    { label: "Επικοινωνία", isHome: false },
+  ];
 
   return (
-    <div>
-      <nav>
-        <h1>Livespace</h1>
-        <form onSubmit={handleLogin}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={loginEmail}
-            onChange={(e) => setLoginEmail(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={loginPassword}
-            onChange={(e) => setLoginPassword(e.target.value)}
-            required
-          />
-          <button type="submit">Log In</button>
-        </form>
+    
+  <>
+    <Hypernav />
+
+    <header className="navbar">
+      <div className="logo">
+        <a href="#">PetME</a>
+      </div>
+
+      <nav className={`nav-menu ${menuActive ? "active" : ""}`} id="nav-menu">
+        <ul className="nav-links">
+          {greekMenuItems.map((item, idx) => (
+            <li key={idx}>
+              <a
+                href="#"
+                onClick={handleLinkClick}
+                className={item.isHome ? "active" : ""}
+                aria-current={item.isHome ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
       </nav>
 
-      <main>
-        <h2>Sign Up</h2>
-        <form onSubmit={handleRegister}>
-          <input
-            type="text"
-            placeholder="First Name"
-            onChange={(e) => setFname(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Last Name"
-            onChange={(e) => setLname(e.target.value)}
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <button type="submit">Sign Up</button>
-        </form>
-      </main>
-    </div>
-  );
-}
+      <div
+        className={`hamburger ${menuActive ? "active" : ""}`}
+        onClick={toggleMenu}
+        onKeyDown={handleKeyDown}
+        ref={hamburgerRef}
+        role="button"
+        tabIndex="0"
+        aria-label="Toggle navigation menu"
+        aria-controls="nav-menu"
+        aria-expanded={menuActive}
+      >
+        <span className="bar"></span>
+        <span className="bar"></span>
+        <span className="bar"></span>
+      </div>
+    </header>
+  </>
+);
+};
 
-export default Signup;
+export default Menu;

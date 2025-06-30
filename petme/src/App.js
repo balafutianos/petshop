@@ -1,16 +1,16 @@
-
-import './App.css';
+// App.js
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Signup from "./Frontend/Menu"; // Import your Home component
+import Menu from "./Frontend/Menu";
+import Hypernav from "./Frontend/Hypernav";
 
 function App() {
   return (
     <Router>
+      <Hypernav />
       <Routes>
-        {/* Default route - this will render Home.jsx */}
-        <Route path="/" element={<Signup />} />
-        
+        <Route path="/" element={<Menu />} />
+        {/* other routes can go here */}
       </Routes>
     </Router>
   );
