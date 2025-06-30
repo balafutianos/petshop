@@ -1,0 +1,44 @@
+.top-info-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 2rem;
+  background-color: #eee;
+  font-weight: 600;
+  font-size: 0.9rem;
+  z-index: 1100;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.left,
+.right,
+.center {
+  flex: 1;
+  text-align: center;
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}
+
+.facebook-link {
+  text-decoration: none;
+  color: #4267B2; /* Facebook blue */
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.facebook-icon {
+  width: 16px;
+  height: 16px;
+  fill: #4267B2;
+}

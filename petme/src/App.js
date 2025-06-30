@@ -1,13 +1,16 @@
 // App.js
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Menu from "./Frontend/Menu"; // Make sure path is correct
+import Menu from "./Frontend/Menu";
+import Hypernav from "./Frontend/Hypernav";
 
 function App() {
   return (
     <Router>
+      <Hypernav />
       <Routes>
         <Route path="/" element={<Menu />} />
+        {/* other routes can go here */}
       </Routes>
     </Router>
   );

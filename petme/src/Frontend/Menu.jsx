@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Menu.css";
+import Hypernav from "../Frontend/Hypernav";
 
 const Menu = () => {
   const [menuActive, setMenuActive] = useState(false);
@@ -28,7 +29,19 @@ const Menu = () => {
     }
   }, [menuActive]);
 
+  const greekMenuItems = [
+    { label: "Αρχική", isHome: true },
+    { label: "Σχετικά", isHome: false },
+    { label: "Υπηρεσίες", isHome: false },
+    { label: "Έργα", isHome: false },
+    { label: "Επικοινωνία", isHome: false },
+  ];
+
   return (
+    
+  <>
+    <Hypernav />
+
     <header className="navbar">
       <div className="logo">
         <a href="#">PetME</a>
@@ -36,15 +49,15 @@ const Menu = () => {
 
       <nav className={`nav-menu ${menuActive ? "active" : ""}`} id="nav-menu">
         <ul className="nav-links">
-          {["Home", "About", "Services", "Projects", "Contact"].map((item, idx) => (
+          {greekMenuItems.map((item, idx) => (
             <li key={idx}>
               <a
                 href="#"
                 onClick={handleLinkClick}
-                className={item === "Home" ? "active" : ""}
-                aria-current={item === "Home" ? "page" : undefined}
+                className={item.isHome ? "active" : ""}
+                aria-current={item.isHome ? "page" : undefined}
               >
-                {item}
+                {item.label}
               </a>
             </li>
           ))}
@@ -67,7 +80,8 @@ const Menu = () => {
         <span className="bar"></span>
       </div>
     </header>
-  );
+  </>
+);
 };
 
 export default Menu;
