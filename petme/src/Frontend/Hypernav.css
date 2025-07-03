@@ -15,10 +15,9 @@
   box-sizing: border-box;
 }
 
-
 .left,
-.right,
-.center {
+.center,
+.right {
   flex: 1;
   text-align: center;
 }
@@ -28,35 +27,67 @@
 }
 
 .right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
   text-align: right;
+  flex: 1;
+  flex-wrap: wrap;
 }
 
-.facebook-link {
+.facebook-link,
+.account-link {
   text-decoration: none;
-  color: #4267B2; /* Facebook blue */
+  color: #333;
   display: flex;
   align-items: center;
   gap: 5px;
+  font-size: 0.85rem;
 }
 
-.facebook-icon {
+.facebook-icon,
+.account-icon {
   width: 16px;
   height: 16px;
-  fill: #4267B2;
 }
+
+.facebook-link:hover,
+.account-link:hover {
+  text-decoration: underline;
+}
+
 @media only screen and (max-width: 768px) {
   .top-info-bar {
-    font-size: 0.55rem !important;
-    padding: 6px 10px !important;
+    font-size: 0.6rem;
+    padding: 6px 10px;
   }
 
   .left,
-  .right,
-  .center {
-    flex: 1 1 auto !important;
+  .center,
+  .right {
+    flex: 1 1 auto;
     min-width: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .right {
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+  }
+
+  .facebook-link,
+  .account-link {
+    font-size: 0.55rem;
+    gap: 3px;
+  }
+
+  .facebook-icon,
+  .account-icon {
+    width: 14px;
+    height: 14px;
   }
 }
