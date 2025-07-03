@@ -24,6 +24,7 @@ const Footer = () => {
             Twitter
           </a>
         </div>
+        {/*  */}
       </div>
     </footer>
   );
