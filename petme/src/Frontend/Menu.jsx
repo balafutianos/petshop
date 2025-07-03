@@ -3,7 +3,7 @@ import "./Menu.css";
 import Hypernav from "../Frontend/Hypernav";
 import Slideshow from "./Slideshow";
 import Products from "./Products";
-
+import Footer from "./Footer";
 
 const Menu = () => {
   const [menuActive, setMenuActive] = useState(false);
@@ -46,7 +46,7 @@ const Menu = () => {
 
       <header className="navbar">
         <div className="logo">
-          <a href="#">PetME</a>
+          <a href="/">PetME</a>
         </div>
 
         <nav className={`nav-menu ${menuActive ? "active" : ""}`} id="nav-menu">
@@ -86,6 +86,7 @@ const Menu = () => {
       {/* Add Slideshow below navbar */}
       <Slideshow />
       <Products />
+      <Footer />
     </>
   );
 };
