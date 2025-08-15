@@ -274,4 +274,23 @@ body {
     width: 200px;
     max-width: 70vw;
   }
+
+  /* Stock badges */
+.stock-badge {
+  display: inline-block;
+  margin: 6px 0 0;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.stock-in  { background: #eafffb; color: #00B9A6; }    /* ταιριάζει με την παλέτα σου */
+.stock-low { background: #fff5e6; color: #b66a00; }
+.stock-out { background: #f1f2f6; color: #6b7b8c; }
+
+.btn-disabled {
+  background: #cbd5e1 !important;
+  cursor: not-allowed !important;
+}
+
 }

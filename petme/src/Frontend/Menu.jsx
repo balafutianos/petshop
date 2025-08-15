@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom"; // <-- add this
 import "./Menu.css";
 import Hypernav from "../Frontend/Hypernav";
 import Slideshow from "./Slideshow";
@@ -12,10 +13,7 @@ const Menu = () => {
 
   const toggleMenu = () => {
     setMenuActive((prev) => !prev);
-    // Close any open dropdown when menu toggles
-    if (menuActive) {
-      setOpenDropdownIndex(null);
-    }
+    if (menuActive) setOpenDropdownIndex(null);
   };
 
   const toggleDropdown = (idx) => {
@@ -56,7 +54,7 @@ const Menu = () => {
       label: "Γάτες",
       isHome: false,
       submenu: [
-        { label: "Τροφές", href: "#cat-food" },
+        { label: "Τροφές", href: "/cats/food" }, // must match your Route
         { label: "Παιχνίδια", href: "#cat-toys" },
       ],
     },
@@ -84,7 +82,7 @@ const Menu = () => {
 
       <header className="navbar">
         <div className="logo">
-          <a href="/">PetME</a>
+          <Link to="/">PetME</Link>
         </div>
 
         <nav className={`nav-menu ${menuActive ? "active" : ""}`} id="nav-menu">
@@ -103,11 +101,12 @@ const Menu = () => {
                     }
                   }}
                 >
+                  {/* Parent label (desktop hover; mobile toggles dropdown) */}
                   <a
                     href="#"
                     onClick={(e) => {
                       if (window.innerWidth <= 768 && hasSubmenu) {
-                        e.preventDefault(); // prevent navigation on mobile for parent menu with submenu
+                        e.preventDefault();
                         toggleDropdown(idx);
                       } else {
                         handleLinkClick();
@@ -121,13 +120,20 @@ const Menu = () => {
                     {item.label}
                   </a>
 
+                  {/* Submenu */}
                   {hasSubmenu && (
                     <ul className="dropdown">
                       {item.submenu.map((subItem, subIdx) => (
                         <li key={subIdx}>
-                          <a href={subItem.href} onClick={handleLinkClick}>
-                            {subItem.label}
-                          </a>
+                          {subItem.href.startsWith("/") ? (
+                            <Link to={subItem.href} onClick={handleLinkClick}>
+                              {subItem.label}
+                            </Link>
+                          ) : (
+                            <a href={subItem.href} onClick={handleLinkClick}>
+                              {subItem.label}
+                            </a>
+                          )}
                         </li>
                       ))}
                     </ul>
@@ -162,7 +168,6 @@ const Menu = () => {
         </div>
       </header>
 
-      {/* Add Slideshow below navbar */}
       <Slideshow />
       <Products />
       <Footer />
