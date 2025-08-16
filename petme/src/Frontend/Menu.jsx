@@ -46,7 +46,7 @@ const Menu = () => {
       label: "Σκυλιά",
       isHome: false,
       submenu: [
-        { label: "Τροφές", href: "#dog-food" },
+        { label: "Τροφές", href: "/dogs/food" },
         { label: "Αξεσουάρ", href: "#dog-accessories" },
       ],
     },

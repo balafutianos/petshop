@@ -175,43 +175,39 @@ const Navbar = () => {
   );
 };
 
-const CatFood = () => {
-  const [products, setProducts] = useState([]);
+const DogFood = () => {
+  const [dogproducts, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
   const loadProducts = async () => {
     try {
-      // 1) Δοκίμασε σκέτο, να δούμε ΟΤΙ διαβάζει από Firestore
-      // const snapAll = await getDocs(collection(db, "products"));
-      // console.log("ALL PRODUCTS:", snapAll.docs.map(d => ({ id: d.id, ...d.data() })));
-
-      // 2) Query με φίλτρα, χωρίς orderBy (για να αποκλείσουμε θέμα index/createdAt)
+      
       const qNoOrder = query(
-        collection(db, "products"),
-        where("category", "==", "cat-food"),
+        collection(db, "dogproducts"),
+        where("category", "==", "dog-food"),
         where("active", "==", true)
       );
 
       let snap = await getDocs(qNoOrder);
       let rows = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      console.log("CAT-FOOD (no order):", rows);
+      console.log("DOG-FOOD (no order):", rows);
 
-      // 3) Αν πήραμε αποτελέσματα και ΟΛΑ έχουν createdAt, προσπάθησε και με orderBy
+      
       const allHaveCreatedAt = rows.length > 0 && rows.every(r => !!r.createdAt);
       if (allHaveCreatedAt) {
         try {
           const qWithOrder = query(
-            collection(db, "products"),
-            where("category", "==", "cat-food"),
+            collection(db, "dogproducts"),
+            where("category", "==", "dog-food"),
             where("active", "==", true),
             orderBy("createdAt", "desc")
           );
           snap = await getDocs(qWithOrder);
           rows = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-          console.log("CAT-FOOD (with order):", rows);
+          console.log("DOG-FOOD (with order):", rows);
         } catch (orderErr) {
-          // Αν ζητά index, θα δεις link στην κονσόλα — κλίκαρέ το και φτιάξ’ το.
+          // Αν ζητά index, link στην κονσόλα για debug.g
           console.warn("orderBy failed, using no-order results. Details:", orderErr);
         }
       }
@@ -234,18 +230,18 @@ const CatFood = () => {
         <nav className="breadcrumbs" aria-label="Θέση στη σελίδα" style={{ display: "flex", gap: 8, marginBottom: 14 }}>
           <Link to="/">Αρχική</Link>
           <span aria-hidden="true">›</span>
-          <span>Γάτες</span>
+          <span>Σκύλος</span>
           <span aria-hidden="true">›</span>
           <span aria-current="page">Τροφές</span>
         </nav>
 
         <section
-          className="cat-hero"
+          className="dog-hero"
           role="img"
           aria-label="Τροφές γάτας"
           style={{
             background:
-              "linear-gradient(0deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('https://images.unsplash.com/photo-1573865526739-10659fec78a5?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat",
+             "linear-gradient(0deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat",
             height: 220,
             borderRadius: 14,
             display: "grid",
@@ -256,7 +252,7 @@ const CatFood = () => {
           }}
         >
           <div>
-            <h1>Τροφές Γάτας</h1>
+            <h1>Τροφές Σκύλου</h1>
             <p style={{ opacity: 0.95, marginTop: 6 }}>
               Ξηρά, υγρή και ειδικές συνταγές — ενημερώνονται αυτόματα από Firebase.
             </p>
@@ -265,11 +261,11 @@ const CatFood = () => {
 
         {loading ? (
           <p>Φόρτωση…</p>
-        ) : products.length === 0 ? (
+        ) : dogproducts.length === 0 ? (
           <p>Δεν υπάρχουν προϊόντα.</p>
         ) : (
           <ul className="product-grid">
-            {products.map((p) => (
+            {dogproducts.map((p) => (
             <li key={p.id} className="product-card">
   <a className="card-link" href={`#/product/${p.id}`}>
     <img src={p.imageUrl} alt={p.title} loading="lazy" />
@@ -322,4 +318,4 @@ const CatFood = () => {
   );
 };
 
-export default CatFood;
+export default DogFood;
