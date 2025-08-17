@@ -46,7 +46,7 @@ const Navbar = () => {
       isHome: false,
       submenu: [
         { label: "Τροφές", href: "/dogs/food" },
-        { label: "Αξεσουάρ", href: "#dog-accessories" },
+        { label: "Αξεσουάρ/Παιχνίδια", href: "#dog-accessories" },
       ],
     },
     {
@@ -54,7 +54,7 @@ const Navbar = () => {
       isHome: false,
       submenu: [
         { label: "Τροφές", href: "/cats/food", active: true },
-        { label: "Παιχνίδια", href: "#cat-toys" },
+        { label: "Αξεσουάρ/Παιχνίδια", href: "/cats/cataccessories" },
       ],
       activeParent: true,
     },
@@ -62,18 +62,11 @@ const Navbar = () => {
       label: "Πτηνά",
       isHome: false,
       submenu: [
-        { label: "Κλουβιά", href: "#bird-cages" },
-        { label: "Τροφές", href: "#bird-food" },
+        { label: "Κλουβιά", href: "/birds/cages" },
+        { label: "Τροφές", href: "/birds/food" },
       ],
     },
-    {
-      label: "Υπηρεσίες",
-      isHome: false,
-      submenu: [
-        { label: "Κτηνίατροι", href: "#vets" },
-        { label: "Φροντίδα", href: "#care" },
-      ],
-    },
+    
   ];
 
   return (

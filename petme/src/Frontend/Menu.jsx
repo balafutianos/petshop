@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom"; // <-- add this
+import { href, Link } from "react-router-dom"; // <-- add this
 import "./Menu.css";
 import Hypernav from "../Frontend/Hypernav";
 import Slideshow from "./Slideshow";
@@ -47,7 +47,7 @@ const Menu = () => {
       isHome: false,
       submenu: [
         { label: "Τροφές", href: "/dogs/food" },
-        { label: "Αξεσουάρ", href: "#dog-accessories" },
+        { label: "Αξεσουάρ", href: "/dogs/dogaccessories" },
       ],
     },
     {
@@ -55,25 +55,18 @@ const Menu = () => {
       isHome: false,
       submenu: [
         { label: "Τροφές", href: "/cats/food" }, // must match your Route
-        { label: "Παιχνίδια", href: "#cat-toys" },
+        { label: "Παιχνίδια", href: "/cats/cataccessories" },
       ],
     },
     {
       label: "Πτηνά",
       isHome: false,
       submenu: [
-        { label: "Κλουβιά", href: "#bird-cages" },
-        { label: "Τροφές", href: "#bird-food" },
+        { label: "Κλουβιά", href: "/birds/cages" },
+        { label: "Τροφές", href: "/birds/food" },
       ],
     },
-    {
-      label: "Υπηρεσίες",
-      isHome: false,
-      submenu: [
-        { label: "Κτηνίατροι", href: "#vets" },
-        { label: "Φροντίδα", href: "#care" },
-      ],
-    },
+    
   ];
 
   return (
