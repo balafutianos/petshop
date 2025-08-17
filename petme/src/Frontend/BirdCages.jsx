@@ -46,7 +46,7 @@ const Navbar = () => {
       isHome: false,
       submenu: [
         { label: "Τροφές", href: "/dogs/food" },
-        { label: "Αξεσουάρ/Παιχνίδια", href: "#dog-accessories" },
+        { label: "Αξεσουάρ/Παιχνίδια", href: "/dogs/dogaccessories" },
       ],
     },
     {
