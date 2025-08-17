@@ -41,7 +41,7 @@ const Menu = () => {
   }, [menuActive]);
 
   const greekMenuItems = [
-    { label: "Αρχική", isHome: true, submenu: [] },
+{ label: "Αρχική", isHome: true, submenu: [{href: "/"}] },
     {
       label: "Σκυλιά",
       isHome: false,

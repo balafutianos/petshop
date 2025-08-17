@@ -66,7 +66,6 @@ const Navbar = () => {
         { label: "Τροφές", href: "/birds/food" },
       ],
     },
-    
   ];
 
   return (
@@ -91,23 +90,36 @@ const Navbar = () => {
                   }
                 }}
               >
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    if (window.innerWidth <= 768 && hasSubmenu) {
-                      e.preventDefault();
-                      toggleDropdown(idx);
-                    } else {
-                      handleLinkClick();
-                    }
-                  }}
-                  className={item.activeParent ? "active" : item.isHome ? "active" : ""}
-                  aria-haspopup={hasSubmenu ? "true" : undefined}
-                  aria-expanded={isOpen ? "true" : "false"}
-                  tabIndex="0"
-                >
-                  {item.label}
-                </a>
+                {/* Αν είναι Αρχική, κάνε Link προς "/" (Menu.jsx) */}
+                {item.isHome ? (
+                  <Link
+                    to="/"
+                    onClick={handleLinkClick}
+                    className={item.activeParent || item.isHome ? "active" : ""}
+                    aria-current="page"
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  // Διαφορετικά, διατηρούμε την προηγούμενη συμπεριφορά με το dropdown
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      if (window.innerWidth <= 768 && hasSubmenu) {
+                        e.preventDefault();
+                        toggleDropdown(idx);
+                      } else {
+                        handleLinkClick();
+                      }
+                    }}
+                    className={item.activeParent ? "active" : ""}
+                    aria-haspopup={hasSubmenu ? "true" : undefined}
+                    aria-expanded={isOpen ? "true" : "false"}
+                    tabIndex="0"
+                  >
+                    {item.label}
+                  </a>
+                )}
 
                 {hasSubmenu && (
                   <ul className="dropdown">
