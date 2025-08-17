@@ -180,7 +180,7 @@ const Navbar = () => {
   );
 };
 
-const DogFood = () => {
+const DogAccessories = () => {
   const [dogproducts, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -189,8 +189,8 @@ const DogFood = () => {
     try {
       
       const qNoOrder = query(
-        collection(db, "dogproducts"),
-        where("category", "==", "dog-food"),
+        collection(db, "dogaccessories"),
+        where("category", "==", "dogts"),
         where("active", "==", true)
       );
 
@@ -203,8 +203,8 @@ const DogFood = () => {
       if (allHaveCreatedAt) {
         try {
           const qWithOrder = query(
-            collection(db, "dogproducts"),
-            where("category", "==", "dog-food"),
+            collection(db, "dogaccessories"),
+            where("category", "==", "dogts"),
             where("active", "==", true),
             orderBy("createdAt", "desc")
           );
@@ -237,7 +237,7 @@ const DogFood = () => {
           <span aria-hidden="true">›</span>
           <span>Σκύλος</span>
           <span aria-hidden="true">›</span>
-          <span aria-current="page">Τροφές</span>
+          <span aria-current="page">Παιχνίδια και Αξεσουάρ</span>
         </nav>
 
         <section
@@ -257,9 +257,9 @@ const DogFood = () => {
           }}
         >
           <div>
-            <h1>Τροφές Σκύλου</h1>
+            <h1>Παιχνίδια και Αξεσουάρ για Σκύλους</h1>
             <p style={{ opacity: 0.95, marginTop: 6 }}>
-              Ξηρά, υγρά για τους καλυτερούς μας φίλους.
+              Ποικιλία παιχνιδιών και αξεσουάρ για τους χνουδουτούς μας φίλους.
             </p>
           </div>
         </section>
@@ -323,4 +323,4 @@ const DogFood = () => {
   );
 };
 
-export default DogFood;
+export default DogAccessories;

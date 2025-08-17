@@ -46,7 +46,7 @@ const Navbar = () => {
       isHome: false,
       submenu: [
         { label: "Τροφές", href: "/dogs/food" },
-        { label: "Αξεσουάρ", href: "#dog-accessories" },
+        { label: "Αξεσουάρ/Παιχνίδια", href: "/dogs/dogaccessories" },
       ],
     },
     {
@@ -54,7 +54,7 @@ const Navbar = () => {
       isHome: false,
       submenu: [
         { label: "Τροφές", href: "/cats/food", active: true },
-        { label: "Παιχνίδια", href: "#cat-toys" },
+        { label: "Αξεσουάρ/Παιχνίδια", href: "/cats/cataccessories" },
       ],
       activeParent: true,
     },
@@ -62,16 +62,8 @@ const Navbar = () => {
       label: "Πτηνά",
       isHome: false,
       submenu: [
-        { label: "Κλουβιά", href: "#bird-cages" },
-        { label: "Τροφές", href: "#bird-food" },
-      ],
-    },
-    {
-      label: "Υπηρεσίες",
-      isHome: false,
-      submenu: [
-        { label: "Κτηνίατροι", href: "#vets" },
-        { label: "Φροντίδα", href: "#care" },
+        { label: "Κλουβιά", href: "/birds/cages" },
+        { label: "Τροφές", href: "/birds/food" },
       ],
     },
   ];
@@ -98,23 +90,36 @@ const Navbar = () => {
                   }
                 }}
               >
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    if (window.innerWidth <= 768 && hasSubmenu) {
-                      e.preventDefault();
-                      toggleDropdown(idx);
-                    } else {
-                      handleLinkClick();
-                    }
-                  }}
-                  className={item.activeParent ? "active" : item.isHome ? "active" : ""}
-                  aria-haspopup={hasSubmenu ? "true" : undefined}
-                  aria-expanded={isOpen ? "true" : "false"}
-                  tabIndex="0"
-                >
-                  {item.label}
-                </a>
+                {/* Αν είναι Αρχική, κάνε Link προς "/" (Menu.jsx) */}
+                {item.isHome ? (
+                  <Link
+                    to="/"
+                    onClick={handleLinkClick}
+                    className={item.activeParent || item.isHome ? "active" : ""}
+                    aria-current="page"
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  // Διαφορετικά, διατηρούμε την προηγούμενη συμπεριφορά με το dropdown
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      if (window.innerWidth <= 768 && hasSubmenu) {
+                        e.preventDefault();
+                        toggleDropdown(idx);
+                      } else {
+                        handleLinkClick();
+                      }
+                    }}
+                    className={item.activeParent ? "active" : ""}
+                    aria-haspopup={hasSubmenu ? "true" : undefined}
+                    aria-expanded={isOpen ? "true" : "false"}
+                    tabIndex="0"
+                  >
+                    {item.label}
+                  </a>
+                )}
 
                 {hasSubmenu && (
                   <ul className="dropdown">

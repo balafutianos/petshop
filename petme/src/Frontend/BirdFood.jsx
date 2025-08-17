@@ -180,39 +180,43 @@ const Navbar = () => {
   );
 };
 
-const DogFood = () => {
-  const [dogproducts, setProducts] = useState([]);
+const BirdFood = () => {
+  const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
   const loadProducts = async () => {
     try {
-      
+      // 1) Δοκίμασε σκέτο, να δούμε ΟΤΙ διαβάζει από Firestore
+      // const snapAll = await getDocs(collection(db, "products"));
+      // console.log("ALL PRODUCTS:", snapAll.docs.map(d => ({ id: d.id, ...d.data() })));
+
+      // 2) Query με φίλτρα, χωρίς orderBy (για να αποκλείσουμε θέμα index/createdAt)
       const qNoOrder = query(
-        collection(db, "dogproducts"),
-        where("category", "==", "dog-food"),
+        collection(db, "birdproduct"),
+        where("category", "==", "bird-food"),
         where("active", "==", true)
       );
 
       let snap = await getDocs(qNoOrder);
       let rows = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      console.log("DOG-FOOD (no order):", rows);
+      console.log("CAT-FOOD (no order):", rows);
 
-      
+      // 3) Αν πήραμε αποτελέσματα και ΟΛΑ έχουν createdAt, προσπάθησε και με orderBy
       const allHaveCreatedAt = rows.length > 0 && rows.every(r => !!r.createdAt);
       if (allHaveCreatedAt) {
         try {
           const qWithOrder = query(
-            collection(db, "dogproducts"),
-            where("category", "==", "dog-food"),
+            collection(db, "birdproduct"),
+            where("category", "==", "bird-food"),
             where("active", "==", true),
             orderBy("createdAt", "desc")
           );
           snap = await getDocs(qWithOrder);
           rows = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-          console.log("DOG-FOOD (with order):", rows);
+          console.log("BIRD-FOOD(with order):", rows);
         } catch (orderErr) {
-          // Αν ζητά index, link στην κονσόλα για debug.g
+          // Αν ζητά index, θα δεις link στην κονσόλα — κλίκαρέ το και φτιάξ’ το.
           console.warn("orderBy failed, using no-order results. Details:", orderErr);
         }
       }
@@ -235,18 +239,18 @@ const DogFood = () => {
         <nav className="breadcrumbs" aria-label="Θέση στη σελίδα" style={{ display: "flex", gap: 8, marginBottom: 14 }}>
           <Link to="/">Αρχική</Link>
           <span aria-hidden="true">›</span>
-          <span>Σκύλος</span>
+          <span>Πτηνά</span>
           <span aria-hidden="true">›</span>
           <span aria-current="page">Τροφές</span>
         </nav>
 
         <section
-          className="dog-hero"
+          className="cat-hero"
           role="img"
           aria-label="Τροφές γάτας"
           style={{
             background:
-             "linear-gradient(0deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat",
+              "linear-gradient(0deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('https://img.freepik.com/free-photo/scarlet-macaw-perched-branch_23-2152007131.jpg?semt=ais_hybrid&w=740&q=80') center/cover no-repeat",
             height: 220,
             borderRadius: 14,
             display: "grid",
@@ -257,20 +261,20 @@ const DogFood = () => {
           }}
         >
           <div>
-            <h1>Τροφές Σκύλου</h1>
+            <h1>Τροφές Πτηνών</h1>
             <p style={{ opacity: 0.95, marginTop: 6 }}>
-              Ξηρά, υγρά για τους καλυτερούς μας φίλους.
+              Ποικιλία τροφών για τους φτερωτούς μας φίλους.
             </p>
           </div>
         </section>
 
         {loading ? (
           <p>Φόρτωση…</p>
-        ) : dogproducts.length === 0 ? (
+        ) : products.length === 0 ? (
           <p>Δεν υπάρχουν προϊόντα.</p>
         ) : (
           <ul className="product-grid">
-            {dogproducts.map((p) => (
+            {products.map((p) => (
             <li key={p.id} className="product-card">
   <a className="card-link" href={`#/product/${p.id}`}>
     <img src={p.imageUrl} alt={p.title} loading="lazy" />
@@ -323,4 +327,4 @@ const DogFood = () => {
   );
 };
 
-export default DogFood;
+export default BirdFood;

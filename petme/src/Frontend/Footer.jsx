@@ -71,7 +71,9 @@ const Footer = () => {
       </div>
 
       <div className="footer-signature">
-        © 2025 PetME. All rights reserved. | Created by Anastasios Anastasiadis
+        © 2025 PetME. All rights reserved. | Created by <a href="https://www.linkedin.com/in/anastasios-anastasiadis-888685374/" target="_blank">
+  Anastasios Anastasiadis
+</a>
       </div>
     </footer>
   );
