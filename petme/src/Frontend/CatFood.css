@@ -168,6 +168,207 @@
 }
 .btn-primary:hover { background: #02a090; }
 
+/* Ισχύουν για cat & dog pages */
+#cat-food .card-media,
+#dog-food .card-media { position: relative; }
+
+#cat-food .card-media img,
+#dog-food .card-media img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+}
+
+#cat-food .card-actions,
+#dog-food .card-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 6px;
+}
+
+#cat-food .icon-btn,
+#dog-food .icon-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+}
+#cat-food .icon-btn:hover,
+#dog-food .icon-btn:hover { background: #fff; }
+
+#cat-food .icon-btn.heart.active,
+#dog-food .icon-btn.heart.active { color: #e11d48; }
+/* Να ισχύουν και στη σελίδα αξεσουάρ */
+#dog-accessories .card-media { position: relative; }
+#dog-accessories .card-media img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+}
+#dog-accessories .card-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 6px;
+}
+#dog-accessories .icon-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+}
+#dog-accessories .icon-btn:hover { background: #fff; }
+#dog-accessories .icon-btn.heart.active { color: #e11d48; }
+#cat-food .card-media { position: relative; }
+#cat-food .card-media img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+}
+#cat-food .card-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 6px;
+}
+#cat-food .icon-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+}
+#cat-food .icon-btn:hover { background: #fff; }
+#cat-food .icon-btn.heart.active { color: #e11d48; }
+/* Overlay actions και για τη σελίδα cat accessories */
+#cataccessories .card-media { position: relative; }
+#cataccessories .card-media img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+}
+#cataccessories .card-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 6px;
+}
+#cataccessories .icon-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+}
+#cataccessories .icon-btn:hover { background: #fff; }
+#cataccessories .icon-btn.heart.active { color: #e11d48; }
+/* Για τη σελίδα bird-food (overlay actions κ.λπ.) */
+#bird-food .card-media { position: relative; }
+#bird-food .card-media img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+}
+#bird-food .card-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 6px;
+}
+#bird-food .icon-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+}
+#bird-food .icon-btn:hover { background: #fff; }
+#bird-food .icon-btn.heart.active { color: #e11d48; }
+/* Προαιρετικά hero διαφοροποίηση */
+.bird-hero { box-shadow: 0 4px 14px rgba(0,0,0,0.08); border-radius: 14px; }
+/* Overlay actions για τη σελίδα κλουβιών */
+#bird-cages .card-media { position: relative; }
+#bird-cages .card-media img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+}
+#bird-cages .card-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 6px;
+}
+#bird-cages .icon-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+}
+#bird-cages .icon-btn:hover { background: #fff; }
+#bird-cages .icon-btn.heart.active { color: #e11d48; }
+
+/* Προαιρετικά */
+.bird-hero { box-shadow: 0 4px 14px rgba(0,0,0,0.08); border-radius: 14px; }
+
 /* Pagination */
 .pagination {
   display: flex;
