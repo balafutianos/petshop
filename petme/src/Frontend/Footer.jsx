@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";   // <-- προσθήκη
 import "./Footer.css";
 import logo from "../photos/logo.png";
 
@@ -10,7 +11,7 @@ const Footer = () => {
 
         <div className="footer-section">
           <h4>Πληροφορίες καταστήματος</h4>
-          <hr></hr>
+          <hr />
           <p>
             <svg width="16" height="16" fill="#eee" viewBox="0 0 24 24">
               <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1.003 1.003 0 011.11-.21c1.21.49 2.53.76 3.88.76a1 1 0 011 1v3.5a1 1 0 01-1 1C10.3 22.5 1.5 13.7 1.5 2a1 1 0 011-1h3.5a1 1 0 011 1c0 1.35.26 2.67.76 3.88.14.37.06.79-.21 1.11l-2.2 2.2z" />
@@ -33,24 +34,28 @@ const Footer = () => {
 
         <div className="footer-section">
           <h4>Ο λογαριασμός μου</h4>
-          <hr></hr>
+          <hr />
           <p>
-            <svg width="16" height="16" fill="#eee" viewBox="0 0 24 24">
-              <path d="M12 12c2.67 0 8 1.34 8 4v2H4v-2c0-2.66 5.33-4 8-4zm0-2a4 4 0 100-8 4 4 0 000 8z" />
-            </svg>{" "}
-            Εγγραφή
+            <Link to="/signup" className="footer-link" aria-label="Εγγραφή">
+              <svg width="16" height="16" fill="#eee" viewBox="0 0 24 24">
+                <path d="M12 12c2.67 0 8 1.34 8 4v2H4v-2c0-2.66 5.33-4 8-4zm0-2a4 4 0 100-8 4 4 0 000 8z" />
+              </svg>{" "}
+              Εγγραφή
+            </Link>
           </p>
           <p>
-            <svg width="16" height="16" fill="#eee" viewBox="0 0 24 24">
-              <path d="M10 17l5-5-5-5v10zm-6-5c0-3.87 3.13-7 7-7 1.57 0 3.02.51 4.2 1.38l1.42-1.42C14.74 3.52 13.02 3 11 3 6.58 3 3 6.58 3 11s3.58 8 8 8c2.02 0 3.74-.52 5.63-1.96l-1.42-1.42C14.02 16.49 12.57 17 11 17c-3.87 0-7-3.13-7-7z" />
-            </svg>{" "}
-            Σύνδεση
+            <Link to="/signin" className="footer-link" aria-label="Σύνδεση">
+              <svg width="16" height="16" fill="#eee" viewBox="0 0 24 24">
+                <path d="M10 17l5-5-5-5v10zm-6-5c0-3.87 3.13-7 7-7 1.57 0 3.02.51 4.2 1.38l1.42-1.42C14.74 3.52 13.02 3 11 3 6.58 3 3 6.58 3 11s3.58 8 8 8c2.02 0 3.74-.52 5.63-1.96l-1.42-1.42C14.02 16.49 12.57 17 11 17c-3.87 0-7-3.13-7-7z" />
+              </svg>{" "}
+              Σύνδεση
+            </Link>
           </p>
         </div>
 
         <div className="footer-section">
           <h4>Βρείτε μας</h4>
-          <hr></hr>
+          <hr />
           <p>
             <a href="https://www.facebook.com/petshoppetme/" target="_blank" rel="noopener noreferrer">
               <svg width="16" height="16" fill="#eee" viewBox="0 0 24 24">
@@ -71,9 +76,14 @@ const Footer = () => {
       </div>
 
       <div className="footer-signature">
-        © 2025 PetME. All rights reserved. | Created by <a href="https://www.linkedin.com/in/anastasios-anastasiadis-888685374/" target="_blank">
-  Anastasios Anastasiadis
-</a>
+        © 2025 PetME. All rights reserved. | Created by{" "}
+        <a
+          href="https://www.linkedin.com/in/anastasios-anastasiadis-888685374/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Anastasios Anastasiadis
+        </a>
       </div>
     </footer>
   );

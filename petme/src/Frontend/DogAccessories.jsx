@@ -1,9 +1,11 @@
+// src/Frontend/DogAccessories.jsx
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { collection, query, where, orderBy, getDocs } from "firebase/firestore";
-import { db } from "../firebase"; // προσαρμόζεις το path
+import { db } from "../firebase";
 import "./CatFood.css";
 import Footer from "./Footer";
+import useFavoritesBucket from "./useFavoritesBucket";
 
 const Navbar = () => {
   const [menuActive, setMenuActive] = useState(false);
@@ -14,29 +16,21 @@ const Navbar = () => {
     setMenuActive((prev) => !prev);
     if (menuActive) setOpenDropdownIndex(null);
   };
-
-  const toggleDropdown = (idx) => {
-    setOpenDropdownIndex((prev) => (prev === idx ? null : idx));
-  };
-
+  const toggleDropdown = (idx) => setOpenDropdownIndex((prev) => (prev === idx ? null : idx));
   const handleLinkClick = () => {
     if (window.innerWidth <= 768) {
       setMenuActive(false);
       setOpenDropdownIndex(null);
     }
   };
-
   const handleKeyDown = (e) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       toggleMenu();
     }
   };
-
   useEffect(() => {
-    if (hamburgerRef.current) {
-      hamburgerRef.current.setAttribute("aria-expanded", menuActive);
-    }
+    if (hamburgerRef.current) hamburgerRef.current.setAttribute("aria-expanded", menuActive);
   }, [menuActive]);
 
   const greekMenuItems = [
@@ -46,17 +40,17 @@ const Navbar = () => {
       isHome: false,
       submenu: [
         { label: "Τροφές", href: "/dogs/food" },
-        { label: "Αξεσουάρ/Παιχνίδια", href: "/dogs/dogaccessories" },
+        { label: "Αξεσουάρ/Παιχνίδια", href: "/dogs/dogaccessories", active: true },
       ],
+      activeParent: true,
     },
     {
       label: "Γάτες",
       isHome: false,
       submenu: [
-        { label: "Τροφές", href: "/cats/food", active: true },
+        { label: "Τροφές", href: "/cats/food" },
         { label: "Αξεσουάρ/Παιχνίδια", href: "/cats/cataccessories" },
       ],
-      activeParent: true,
     },
     {
       label: "Πτηνά",
@@ -85,12 +79,9 @@ const Navbar = () => {
                 key={idx}
                 className={`has-dropdown ${isOpen ? "open" : ""} ${item.isHome ? "no-arrow" : ""}`}
                 onClick={() => {
-                  if (window.innerWidth <= 768 && hasSubmenu) {
-                    toggleDropdown(idx);
-                  }
+                  if (window.innerWidth <= 768 && hasSubmenu) toggleDropdown(idx);
                 }}
               >
-                {/* Αν είναι Αρχική, κάνε Link προς "/" (Menu.jsx) */}
                 {item.isHome ? (
                   <Link
                     to="/"
@@ -101,7 +92,6 @@ const Navbar = () => {
                     {item.label}
                   </Link>
                 ) : (
-                  // Διαφορετικά, διατηρούμε την προηγούμενη συμπεριφορά με το dropdown
                   <a
                     href="#"
                     onClick={(e) => {
@@ -183,70 +173,69 @@ const Navbar = () => {
 const DogAccessories = () => {
   const [dogproducts, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { addToBucket, toggleFavorite, isFavorite } = useFavoritesBucket();
 
   useEffect(() => {
-  const loadProducts = async () => {
-    try {
-      
-      const qNoOrder = query(
-        collection(db, "dogaccessories"),
-        where("category", "==", "dogts"),
-        where("active", "==", true)
-      );
+    const loadProducts = async () => {
+      try {
+        const qNoOrder = query(
+          collection(db, "dogaccessories"),
+          where("category", "==", "dogts"),
+          where("active", "==", true)
+        );
 
-      let snap = await getDocs(qNoOrder);
-      let rows = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      console.log("DOG-FOOD (no order):", rows);
+        let snap = await getDocs(qNoOrder);
+        let rows = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 
-      
-      const allHaveCreatedAt = rows.length > 0 && rows.every(r => !!r.createdAt);
-      if (allHaveCreatedAt) {
-        try {
-          const qWithOrder = query(
-            collection(db, "dogaccessories"),
-            where("category", "==", "dogts"),
-            where("active", "==", true),
-            orderBy("createdAt", "desc")
-          );
-          snap = await getDocs(qWithOrder);
-          rows = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-          console.log("DOG-FOOD (with order):", rows);
-        } catch (orderErr) {
-          // Αν ζητά index, link στην κονσόλα για debug.g
-          console.warn("orderBy failed, using no-order results. Details:", orderErr);
+        const allHaveCreatedAt = rows.length > 0 && rows.every((r) => !!r.createdAt);
+        if (allHaveCreatedAt) {
+          try {
+            const qWithOrder = query(
+              collection(db, "dogaccessories"),
+              where("category", "==", "dogts"),
+              where("active", "==", true),
+              orderBy("createdAt", "desc")
+            );
+            snap = await getDocs(qWithOrder);
+            rows = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+          } catch (orderErr) {
+            console.warn("orderBy failed, using no-order results. Details:", orderErr);
+          }
         }
-      }
 
-      setProducts(rows);
-    } catch (err) {
-      console.error("Firestore error:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-  loadProducts();
-}, []);
+        setProducts(rows);
+      } catch (err) {
+        console.error("Firestore error:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadProducts();
+  }, []);
 
   return (
     <>
       <Navbar />
 
-      <main id="cat-food" style={{ paddingTop: 140, maxWidth: 1200, margin: "0 auto", paddingLeft: 16, paddingRight: 16 }}>
+      <main
+        id="dog-accessories"
+        style={{ paddingTop: 140, maxWidth: 1200, margin: "0 auto", paddingLeft: 16, paddingRight: 16 }}
+      >
         <nav className="breadcrumbs" aria-label="Θέση στη σελίδα" style={{ display: "flex", gap: 8, marginBottom: 14 }}>
           <Link to="/">Αρχική</Link>
           <span aria-hidden="true">›</span>
           <span>Σκύλος</span>
           <span aria-hidden="true">›</span>
-          <span aria-current="page">Παιχνίδια και Αξεσουάρ</span>
+          <span aria-current="page">Αξεσουάρ/Παιχνίδια</span>
         </nav>
 
         <section
           className="dog-hero"
           role="img"
-          aria-label="Τροφές γάτας"
+          aria-label="Παιχνίδια και Αξεσουάρ Σκύλου"
           style={{
             background:
-             "linear-gradient(0deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat",
+              "linear-gradient(0deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat",
             height: 220,
             borderRadius: 14,
             display: "grid",
@@ -257,10 +246,8 @@ const DogAccessories = () => {
           }}
         >
           <div>
-            <h1>Παιχνίδια και Αξεσουάρ για Σκύλους</h1>
-            <p style={{ opacity: 0.95, marginTop: 6 }}>
-              Ποικιλία παιχνιδιών και αξεσουάρ για τους χνουδουτούς μας φίλους.
-            </p>
+            <h1>Παιχνίδια & Αξεσουάρ Σκύλου</h1>
+            <p style={{ opacity: 0.95, marginTop: 6 }}>Λουριά, παιχνίδια, μπολάκια και πολλά ακόμη.</p>
           </div>
         </section>
 
@@ -271,48 +258,114 @@ const DogAccessories = () => {
         ) : (
           <ul className="product-grid">
             {dogproducts.map((p) => (
-            <li key={p.id} className="product-card">
-  <a className="card-link" href={`#/product/${p.id}`}>
-    <img src={p.imageUrl} alt={p.title} loading="lazy" />
-    <div className="card-body">
-      <h3 className="title">{p.title}</h3>
-      <p className="meta">
-        <span>{p.brand}</span> · <span>{p.lifeStage}</span> · <span>{p.type}</span>
-      </p>
+              <li key={p.id} className="product-card">
+                <a
+                  className="card-link"
+                  href={`#/product/${p.id}`}
+                  onClick={(e) => e.preventDefault()} // μην αλλάζει σελίδα όταν πατάς τα icon-buttons
+                >
+                  {/* media + overlay actions */}
+                  <div className="card-media">
+                    <img src={p.imageUrl} alt={p.title} loading="lazy" />
 
-      {/* --- STOCK BADGE --- */}
-      {(() => {
-        const stock = Number(p.stock ?? 0);
-        const stockClass = stock <= 0 ? "stock-out" : stock <= 5 ? "stock-low" : "stock-in";
-        const stockLabel =
-          stock <= 0 ? "Εξαντλημένο" : stock <= 5 ? `Λίγα τεμάχια (${stock})` : `Σε απόθεμα (${stock})`;
-        return <span className={`stock-badge ${stockClass}`}>{stockLabel}</span>;
-      })()}
+                    <div className="card-actions">
+                      <button
+                        type="button"
+                        className={`icon-btn heart ${isFavorite(p.id) ? "active" : ""}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          toggleFavorite({
+                            id: p.id,
+                            title: p.title,
+                            brand: p.brand,
+                            price: p.price,
+                            imageUrl: p.imageUrl,
+                          });
+                        }}
+                        aria-label={isFavorite(p.id) ? "Αφαίρεση από αγαπημένα" : "Προσθήκη στα αγαπημένα"}
+                        title={isFavorite(p.id) ? "Αφαίρεση από αγαπημένα" : "Προσθήκη στα αγαπημένα"}
+                      >
+                        ♥
+                      </button>
 
-      <div className="price-row" style={{ marginTop: 8 }}>
-        <span className="price">€{Number(p.price).toFixed(2)}</span>
-        {p.rating && <span className="rating">★ {p.rating}</span>}
-      </div>
+                      <button
+                        type="button"
+                        className="icon-btn cart"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          addToBucket({
+                            id: p.id,
+                            title: p.title,
+                            brand: p.brand,
+                            price: p.price,
+                            imageUrl: p.imageUrl,
+                          });
+                        }}
+                        aria-label="Προσθήκη στο καλάθι"
+                        title="Προσθήκη στο καλάθι"
+                      >
+                        🛒
+                      </button>
+                    </div>
+                  </div>
 
-      {(() => {
-        const stock = Number(p.stock ?? 0);
-        const disabled = stock <= 0;
-        return (
-          <button
-            className={`btn-primary ${disabled ? "btn-disabled" : ""}`}
-            type="button"
-            disabled={disabled}
-            aria-disabled={disabled}
-            title={disabled ? "Μη διαθέσιμο προς το παρόν" : "Προσθήκη στο καλάθι"}
-          >
-            {disabled ? "Εξαντλημένο" : "Προσθήκη στο καλάθι"}
-          </button>
-        );
-      })()}
-    </div>
-  </a>
-</li>
+                  <div className="card-body">
+                    <h3 className="title">{p.title}</h3>
 
+                    {/* Δείξε ό,τι πεδία υπάρχουν (brand/type/lifeStage μπορεί να λείπουν στα accessories) */}
+                    {(p.brand || p.type || p.lifeStage) && (
+                      <p className="meta">
+                        {p.brand && <span>{p.brand}</span>}
+                        {p.brand && (p.type || p.lifeStage) ? " · " : ""}
+                        {p.type && <span>{p.type}</span>}
+                        {p.type && p.lifeStage ? " · " : ""}
+                        {p.lifeStage && <span>{p.lifeStage}</span>}
+                      </p>
+                    )}
+
+                    {/* Stock badge */}
+                    {(() => {
+                      const stock = Number(p.stock ?? 0);
+                      const stockClass = stock <= 0 ? "stock-out" : stock <= 5 ? "stock-low" : "stock-in";
+                      const stockLabel = stock <= 0 ? "Εξαντλημένο" : stock <= 5 ? `Λίγα τεμάχια (${stock})` : `Σε απόθεμα (${stock})`;
+                      return <span className={`stock-badge ${stockClass}`}>{stockLabel}</span>;
+                    })()}
+
+                    <div className="price-row" style={{ marginTop: 8 }}>
+                      <span className="price">€{Number(p.price ?? 0).toFixed(2)}</span>
+                      {p.rating && <span className="rating">★ {p.rating}</span>}
+                    </div>
+
+                    {(() => {
+                      const stock = Number(p.stock ?? 0);
+                      const disabled = stock <= 0;
+                      return (
+                        <button
+                          className={`btn-primary ${disabled ? "btn-disabled" : ""}`}
+                          type="button"
+                          disabled={disabled}
+                          aria-disabled={disabled}
+                          title={disabled ? "Μη διαθέσιμο προς το παρόν" : "Προσθήκη στο καλάθι"}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (!disabled) {
+                              addToBucket({
+                                id: p.id,
+                                title: p.title,
+                                brand: p.brand,
+                                price: p.price,
+                                imageUrl: p.imageUrl,
+                              });
+                            }
+                          }}
+                        >
+                          {disabled ? "Εξαντλημένο" : "Προσθήκη στο καλάθι"}
+                        </button>
+                      );
+                    })()}
+                  </div>
+                </a>
+              </li>
             ))}
           </ul>
         )}

@@ -1,93 +1,123 @@
+/* Δομή / Ευθυγράμμιση */
 .top-info-bar {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  background-color: #eee;
-  font-weight: 600;
-  font-size: 0.85rem;
-  padding: 8px 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 1100;
   height: 40px;
-  box-sizing: border-box;
-}
-
-.left,
-.center,
-.right {
-  flex: 1;
-  text-align: center;
-}
-
-.left {
-  text-align: left;
-}
-
-.right {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 1rem;
-  text-align: right;
-  flex: 1;
-  flex-wrap: wrap;
-}
-
-.facebook-link,
-.account-link {
-  text-decoration: none;
+  width: 100%;
+  background: #eee;
   color: #333;
+  z-index: 1100;
   display: flex;
   align-items: center;
-  gap: 5px;
-  font-size: 0.85rem;
+  justify-content: space-between;
+  padding: 0 12px;
+  font-size: 0.9rem;
+}
+.top-info-bar .left,
+.top-info-bar .center,
+.top-info-bar .right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.facebook-icon,
-.account-icon {
+/* Facebook link */
+.facebook-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #333;
+  text-decoration: none;
+}
+.facebook-link:hover { opacity: 0.9; }
+.facebook-icon {
   width: 16px;
   height: 16px;
+  display: inline-block;
+  background: #333; /* desired color */
+  -webkit-mask: url("https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg") no-repeat center / contain;
+  mask: url("https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg") no-repeat center / contain;
 }
 
-.facebook-link:hover,
-.account-link:hover {
-  text-decoration: underline;
+
+/* Account menu */
+.account-menu {
+  position: relative;
+  display: inline-flex;
+}
+.account-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 8px;
+  font: inherit;
+}
+.account-link:hover { background: rgba(255,255,255,0.12); }
+
+/* Dropdown (hover ή focus μέσα) */
+.account-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 180px;
+  background: #fff;
+  color: #333;
+  border-radius: 10px;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+  padding: 6px 0;
+  list-style: none;
+  display: none;
+  z-index: 1200;
+}
+.account-dropdown a {
+  display: block;
+  padding: 10px 14px;
+  text-decoration: none;
+  color: #222;
+  font-weight: 500;
+}
+.account-dropdown a:hover {
+  background: #f2fbfa;
+  color: #00b9a6;
+}
+.account-menu:hover .account-dropdown,
+.account-menu:focus-within .account-dropdown {
+  display: block;
 }
 
-@media only screen and (max-width: 768px) {
-  .top-info-bar {
-    font-size: 0.6rem;
-    padding: 6px 10px;
-  }
+.account-dropdown {
+  background: #f2fbfa;
+  color: #00b9a6;
+}
+.dropdown-button{
+ display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+  border-radius: 6px;
+  border: none;
 
-  .left,
-  .center,
-  .right {
-    flex: 1 1 auto;
-    min-width: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+  color: #fff;
+  background: linear-gradient(180deg, #c50808 0%, #ec222c 100%);
+   background-origin: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+.dropdown-button:focus {
+  box-shadow: inset 0px 0.8px 0px -0.25px rgba(139, 2, 2, 0.2), 0px 0.5px 1.5px rgba(54, 122, 246, 0.25), 0px 0px 0px 3.5px rgba(58, 108, 217, 0.5);
+  outline: 0;
+}
 
-  .right {
-    gap: 0.5rem;
-    flex-wrap: nowrap;
-    justify-content: flex-end;
-  }
-
-  .facebook-link,
-  .account-link {
-    font-size: 0.55rem;
-    gap: 3px;
-  }
-
-  .facebook-icon,
-  .account-icon {
-    width: 14px;
-    height: 14px;
-  }
+/* Responsive μικροδιορθώσεις */
+@media (max-width: 768px) {
+  .top-info-bar { font-size: 0.85rem; padding: 0 8px; }
+  .top-info-bar .center { display: none; } /* αν δεν χωράει */
 }
