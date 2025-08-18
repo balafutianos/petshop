@@ -11,7 +11,7 @@ import BirdFood from "./Frontend/BirdFood";
 import CatAccessories from "./Frontend/CatAccessories";
 import BirdCages from "./Frontend/BirdCages";
 import DogAccessories from "./Frontend/DogAccessories";
-
+import VerifyEmail from "./Frontend/VerifyEmail";
 import SignIn from "./Frontend/SignIn";
 import SignUp from "./Frontend/SignUp";
 import { AuthProvider } from "./Frontend/AuthProvider";
@@ -36,7 +36,7 @@ function App() {
           <Route path="/birds/cages" element={<BirdCages />} />
           <Route path="/cats/food" element={<CatFood />} />
           <Route path="/cats/cataccessories" element={<CatAccessories />} />
-
+          <Route path="/verify" element={<VerifyEmail />} />
           {/* Auth routes */}
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
